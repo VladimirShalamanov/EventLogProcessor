@@ -9,7 +9,10 @@ import java.util.List;
 
 public class EventLogProcessorApp {
 
+    private static final String DEFAULT_OUTPUT_FILENAME = "summary.json";
+
     public static void main(String[] args) {
+
         if (args.length == 0 || args[0].isBlank()) {
             System.err.println("Error: Please provide the input file path as an argument.");
             System.exit(1);
@@ -20,14 +23,14 @@ public class EventLogProcessorApp {
         try {
             EventParser parser = new EventParser();
             List<Event> validEvents = parser.parseLogFile(filePath);
-
             Statistics statistics = new Statistics();
+
             for (Event event : validEvents) {
                 statistics.processEvent(event);
             }
 
             statistics.printReport(parser.getInvalidLinesCount());
-            statistics.saveSummaryToJson("summary.json");
+            statistics.saveSummaryToJson(DEFAULT_OUTPUT_FILENAME);
         } catch (IOException e) {
             System.err.println("Error: Failed to read input file: " + e.getMessage());
             System.exit(1);

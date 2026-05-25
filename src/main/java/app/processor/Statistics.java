@@ -24,12 +24,12 @@ public class Statistics {
     );
 
     private final ObjectMapper objectMapper;
-
-    private int totalValidEvents;
     private final Map<String, Integer> eventCountPerAction;
     private final Map<String, Integer> userEventCounts;
     private BigDecimal totalPurchaseAmount;
     private BigDecimal maxPurchaseAmount;
+
+    private int totalValidEvents;
     private int purchaseCount;
     private int totalInvalidLines;
 
@@ -53,6 +53,7 @@ public class Statistics {
         if (event instanceof PurchaseEvent purchase) {
             BigDecimal amount = purchase.getAmount();
             totalPurchaseAmount = totalPurchaseAmount.add(amount);
+
             if (amount.compareTo(maxPurchaseAmount) > 0) {
                 maxPurchaseAmount = amount;
             }
@@ -89,6 +90,7 @@ public class Statistics {
 
     private StatisticsSummary buildSummary() {
         StatisticsSummary summary = new StatisticsSummary();
+
         summary.setTotalValidEvents(totalValidEvents);
         summary.setTotalInvalidLines(totalInvalidLines);
         summary.setEventCountPerUser(getSortedUserEventCounts());
@@ -96,6 +98,7 @@ public class Statistics {
         summary.setMostActiveUser(findMostActiveUserId());
         summary.setTopActiveUsers(buildTopActiveUsers());
         summary.setEventCountPerAction(buildOrderedActionCounts());
+
         return summary;
     }
 
@@ -113,9 +116,11 @@ public class Statistics {
 
     private PurchaseStatistics buildPurchaseStatistics() {
         PurchaseStatistics purchaseStatistics = new PurchaseStatistics();
+
         purchaseStatistics.setTotal(formatAmount(totalPurchaseAmount));
         purchaseStatistics.setAverage(formatAmount(calculateAveragePurchaseAmount()));
         purchaseStatistics.setLargest(formatAmount(maxPurchaseAmount));
+
         return purchaseStatistics;
     }
 
@@ -129,6 +134,7 @@ public class Statistics {
 
     private List<TopActiveUser> buildTopActiveUsers() {
         AtomicInteger rank = new AtomicInteger(1);
+
         return userEventCounts.entrySet().stream()
                 .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder())
                         .thenComparing(Map.Entry.comparingByKey()))
@@ -142,8 +148,10 @@ public class Statistics {
 
     private Map<String, Integer> buildOrderedActionCounts() {
         Map<String, Integer> orderedActionCounts = new LinkedHashMap<>();
+
         ACTION_DISPLAY_ORDER.forEach(action ->
                 orderedActionCounts.put(action, eventCountPerAction.getOrDefault(action, 0)));
+
         return orderedActionCounts;
     }
 
@@ -162,6 +170,7 @@ public class Statistics {
         if (purchaseCount == 0) {
             return BigDecimal.ZERO;
         }
+
         return totalPurchaseAmount.divide(
                 BigDecimal.valueOf(purchaseCount),
                 2,
@@ -171,6 +180,7 @@ public class Statistics {
 
     private void printMostActiveUser() {
         String mostActiveUser = findMostActiveUserId();
+
         if (mostActiveUser != null) {
             System.out.println("Most active user: " + mostActiveUser);
         }
@@ -195,11 +205,11 @@ public class Statistics {
 
         private int totalValidEvents;
         private int totalInvalidLines;
+        private List<TopActiveUser> topActiveUsers;
+        private Map<String, Integer> eventCountPerAction;
         private Map<String, Integer> eventCountPerUser;
         private PurchaseStatistics purchaseStatistics;
         private String mostActiveUser;
-        private List<TopActiveUser> topActiveUsers;
-        private Map<String, Integer> eventCountPerAction;
 
         public int getTotalValidEvents() {
             return totalValidEvents;

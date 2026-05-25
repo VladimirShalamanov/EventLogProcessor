@@ -41,6 +41,7 @@ public class EventParser {
         invalidLinesCount = 0;
 
         try (BufferedReader reader = Files.newBufferedReader(Path.of(filePath))) {
+
             String line;
             while ((line = reader.readLine()) != null) {
                 parseLine(line, validEvents, processedEventIds);
@@ -57,7 +58,9 @@ public class EventParser {
     private void parseLine(String line, List<Event> validEvents, Set<String> processedEventIds) {
         try {
             Event event = objectMapper.readValue(line, Event.class);
+
             if (isValid(event)) {
+
                 String eventId = event.getEventId().toString();
                 if (processedEventIds.contains(eventId)) {
                     invalidLinesCount++;
@@ -86,7 +89,7 @@ public class EventParser {
             return false;
         }
 
-        if (!isValidUuid(event.getEventId()) || !isValidUuid(event.getUserId())) {
+        if (!isValidId(event.getEventId()) || !isValidId(event.getUserId())) {
             return false;
         }
 
@@ -116,12 +119,13 @@ public class EventParser {
         }
     }
 
-    private boolean isValidUuid(UUID uuid) {
-        if (uuid == null) {
+    private boolean isValidId(UUID id) {
+        if (id == null) {
             return false;
         }
+
         try {
-            UUID.fromString(uuid.toString());
+            UUID.fromString(id.toString());
             return true;
         } catch (IllegalArgumentException e) {
             return false;
