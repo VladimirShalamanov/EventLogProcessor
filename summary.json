@@ -1,0 +1,36 @@
+{
+  "totalValidEvents" : 16,
+  "totalInvalidLines" : 5,
+  "eventCountPerUser" : {
+    "c1b7d8f0-1c3a-4d95-8d0d-6df3f1d5b001" : 7,
+    "d2d44db8-b8d9-4b43-9c2f-3bb47e87f221" : 4,
+    "8e73f9d7-c2b8-4705-a16f-dc5dfac98201" : 3,
+    "f2f09c5a-88bc-4c3e-8b78-0a91cfa0f332" : 2
+  },
+  "purchaseStatistics" : {
+    "total" : "182.54",
+    "average" : "36.51",
+    "largest" : "100.00"
+  },
+  "mostActiveUser" : "c1b7d8f0-1c3a-4d95-8d0d-6df3f1d5b001",
+  "topActiveUsers" : [ {
+    "rank" : 1,
+    "userId" : "c1b7d8f0-1c3a-4d95-8d0d-6df3f1d5b001",
+    "eventCount" : 7
+  }, {
+    "rank" : 2,
+    "userId" : "d2d44db8-b8d9-4b43-9c2f-3bb47e87f221",
+    "eventCount" : 4
+  }, {
+    "rank" : 3,
+    "userId" : "8e73f9d7-c2b8-4705-a16f-dc5dfac98201",
+    "eventCount" : 3
+  } ],
+  "eventCountPerAction" : {
+    "login" : 2,
+    "logout" : 3,
+    "view" : 3,
+    "click" : 3,
+    "purchase" : 5
+  }
+}
